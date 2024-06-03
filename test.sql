@@ -27,44 +27,43 @@ INSERT INTO `Individuals` (`firstName`, `lastName`, `secondName`, `passport`, `i
 ('Софико', 'Берулава', 'Андреевич', '123', '123', '123', '123', 'Грузинский паспорт', NULL),
 ('Сергей', 'Воронович', 'Ивановна', '123', '123', '123', '123', '-', NULL);
 
+CREATE TABLE Borrowers (
+    `borrower_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `inn` VARCHAR(12) CHARACTER SET utf8,
+    `entity_type` TINYINT, -- 0 for individual, 1 for organization
+    `address` VARCHAR(255) CHARACTER SET utf8,
+    `total_amount` DECIMAL(10, 2),
+    `conditions` TEXT CHARACTER SET utf8,
+    `legal_notes` TEXT CHARACTER SET utf8,
+    `contract_list` TEXT CHARACTER SET utf8
+);
+
 CREATE TABLE loans (
-    'id' INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    'individual_id' INT,
-    'borrower_id' INT
-    'amount' DECIMAL(10, 2),
-    'interest_rate' DECIMAL(5, 2),
-    'limitation' INT,
-    'conditions' TEXT CHARACTER SET utf8,
-    'notes' TEXT CHARACTER SET utf8,
-    FOREIGN KEY (individual_id) REFERENCES Individuals(id)
-    FOREIGN KEY (borrower_id) REFERENCES Borrowers(borrower_id);
+    `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `individual_id` INT,
+    `borrower_id` INT,
+    `amount` DECIMAL(10, 2),
+    `interest_rate` DECIMAL(5, 2),
+    `limitation` INT,
+    `conditions` TEXT CHARACTER SET utf8,
+    `notes` TEXT CHARACTER SET utf8,
+    FOREIGN KEY (individual_id) REFERENCES Individuals(id),
+    FOREIGN KEY (borrower_id) REFERENCES Borrowers(borrower_id)
 );
 
 
 CREATE TABLE OrgLoans (
-    'id' INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    'organization_id' INT,
-    'borrower_id' INT
-    'individual_id' INT,
-    'amount' DECIMAL(10, 2),
-    'limitation' INT,
-    'interest_rate' DECIMAL(5, 2),
-    'conditions' TEXT CHARACTER SET utf8,
-    'notes' TEXT CHARACTER SET utf8,
-    FOREIGN KEY (individual_id) REFERENCES Individuals(id)
-    FOREIGN KEY (borrower_id) REFERENCES Borrowers(borrower_id);
-);
-
-
-CREATE TABLE Borrowers (
-    'borrower_id' INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    'inn' VARCHAR(12) CHARACTER SET utf8,
-    'entity_type' TINYINT, -- 0 for individual, 1 for organization
-    'address' VARCHAR(255) CHARACTER SET utf8,
-    'total_amount' DECIMAL(10, 2),
-    'conditions' TEXT CHARACTER SET utf8,
-    'legal_notes' TEXT CHARACTER SET utf8,
-    'contract_list' TEXT CHARACTER SET utf8
+    `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `organization_id` INT,
+    `borrower_id` INT,
+    `individual_id` INT,
+    `amount` DECIMAL(10, 2),
+    `limitation` INT,
+    `interest_rate` DECIMAL(5, 2),
+    `conditions` TEXT CHARACTER SET utf8,
+    `notes` TEXT CHARACTER SET utf8,
+    FOREIGN KEY (individual_id) REFERENCES Individuals(id),
+    FOREIGN KEY (borrower_id) REFERENCES Borrowers(borrower_id)
 );
 
 COMMIT;
